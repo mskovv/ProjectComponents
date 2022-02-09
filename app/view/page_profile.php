@@ -11,6 +11,7 @@
                     <div class="card mb-g rounded-top">
                         <div class="row no-gutters row-grid">
                             <div class="col-12">
+                                <?php echo flash()->display(); ?>
                                 <div class="d-flex flex-column align-items-center justify-content-center p-4">
                                     <img src="../app/uploads/<?=$user['avatar']?>" class="rounded-circle shadow-2 img-thumbnail" alt="">
                                     <h5 class="mb-0 fw-700 text-center mt-3">

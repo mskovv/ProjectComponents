@@ -120,7 +120,7 @@ class userController
             unlink("../app/uploads/" .$user['avatar']);
             $this->queryBuilder->update('users_information', ['avatar' => $filename ], $_GET['id']);
         }
-        Func::redirect_to('users');
+        Func::redirect_to('profile?id='.$_GET['id']);
         flash()->success('Аватар обновлен');
     
     }
