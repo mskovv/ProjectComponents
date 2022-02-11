@@ -5,7 +5,6 @@ if( !session_id() ) @session_start();
 
 use Aura\SqlQuery\QueryFactory;
 use Delight\Auth;
-use Laracasts\Flash\Flash;
 use League\Plates\Engine;
 
 
@@ -24,9 +23,7 @@ $builder->addDefinitions([
     Engine::class => function(){
     return new Engine('../app/view/');
     },
-    Flash::class => function(){
-    return new Laracasts\Flash\Flash();
-    }
+
 ]);
 try {
     $container = $builder->build();
@@ -36,26 +33,31 @@ try {
 
 
 $dispatcher = FastRoute\simpleDispatcher(function(FastRoute\RouteCollector $r) {
-    $r->addRoute('GET', '/ProjectComponents/public/', ['App\controllers\pageController','loginView']);
-    $r->addRoute('GET', '/ProjectComponents/public/login', ['App\controllers\pageController','loginView']);
-    $r->addRoute('GET', '/ProjectComponents/public/register', ['App\controllers\pageController','register']);
-    $r->addRoute('GET', '/ProjectComponents/public/users', ['App\controllers\pageController','users']);
-    $r->addRoute('GET', '/ProjectComponents/public/logout', ['App\controllers\pageController','logout']);
-    $r->addRoute('GET', '/ProjectComponents/public/createUser', ['App\controllers\pageController','createUserView']);
-    $r->addRoute('GET', '/ProjectComponents/public/edit', ['App\controllers\pageController','viewEdit']);
-    $r->addRoute('GET', '/ProjectComponents/public/security', ['App\controllers\pageController', 'viewSecurity']);
-    $r->addRoute('GET', '/ProjectComponents/public/delete', ['App\controllers\userController', 'deleteUser']);
-    $r->addRoute('GET', '/ProjectComponents/public/status', ['App\controllers\pageController', 'statusView']);
-    $r->addRoute('GET', '/ProjectComponents/public/media', ['App\controllers\pageController', 'mediaView']);
-    $r->addRoute('GET', '/ProjectComponents/public/profile', ['App\controllers\pageController', 'profileView']);
+    $r->addRoute('GET', '/ProjectComponents/public/logout', ['App\controllers\AbstractController','logout']);
     
-    $r->addRoute('POST', '/ProjectComponents/public/media', ['App\controllers\userController', 'mediaUpdate']);
-    $r->addRoute('POST', '/ProjectComponents/public/register', ['App\controllers\pageController','registerUser']);
-    $r->addRoute('POST', '/ProjectComponents/public/status', ['App\controllers\userController', 'statusSet']);
-    $r->addRoute('POST', '/ProjectComponents/public/login', ['App\controllers\pageController','loginForm']);
-    $r->addRoute('POST', '/ProjectComponents/public/createUser', ['App\controllers\userController','createUser']);
-    $r->addRoute('POST', '/ProjectComponents/public/edit', ['App\controllers\userController', 'updateUserInfo']);
-    $r->addRoute('POST', '/ProjectComponents/public/security', ['App\controllers\userController', 'editSecurity']);
+    $r->addRoute('GET', '/ProjectComponents/public/register', ['App\controllers\RegistrationController','register']);
+    $r->addRoute('POST', '/ProjectComponents/public/register', ['App\controllers\RegistrationController','registerUser']);
+    
+    $r->addRoute('GET', '/ProjectComponents/public/', ['App\controllers\HomeController','loginView']);
+    $r->addRoute('GET', '/ProjectComponents/public/login', ['App\controllers\HomeController','loginView']);
+    $r->addRoute('POST', '/ProjectComponents/public/login', ['App\controllers\HomeController','loginForm']);
+    
+    
+    $r->addRoute('GET', '/ProjectComponents/public/users', ['App\controllers\ViewController','users']);
+    $r->addRoute('GET', '/ProjectComponents/public/edit', ['App\controllers\ViewController','viewEdit']);
+    $r->addRoute('GET', '/ProjectComponents/public/security', ['App\controllers\ViewController', 'viewSecurity']);
+    $r->addRoute('GET', '/ProjectComponents/public/createUser', ['App\controllers\ViewController','createUserView']);
+    $r->addRoute('GET', '/ProjectComponents/public/status', ['App\controllers\ViewController', 'statusView']);
+    $r->addRoute('GET', '/ProjectComponents/public/media', ['App\controllers\ViewController', 'mediaView']);
+    $r->addRoute('GET', '/ProjectComponents/public/profile', ['App\controllers\ViewController', 'profileView']);
+    
+    
+    $r->addRoute('POST', '/ProjectComponents/public/createUser', ['App\controllers\UsersControllers','createUser']);
+    $r->addRoute('POST', '/ProjectComponents/public/edit', ['App\controllers\UsersControllers', 'updateUserInfo']);
+    $r->addRoute('POST', '/ProjectComponents/public/security', ['App\controllers\UsersControllers', 'editSecurity']);
+    $r->addRoute('GET', '/ProjectComponents/public/delete', ['App\controllers\UsersControllers', 'deleteUser']);
+    $r->addRoute('POST', '/ProjectComponents/public/status', ['App\controllers\UsersControllers', 'setStatus']);
+    $r->addRoute('POST', '/ProjectComponents/public/media', ['App\controllers\UsersControllers', 'updateMedia']);
     
 });
 
